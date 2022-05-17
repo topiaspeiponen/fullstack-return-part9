@@ -1,0 +1,14 @@
+{
+  "name": "first-steps",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "ts-node": "ts-node",
+    "calculateBmi": "ts-node bmiCalculator.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Topias Peiponen",
+  "license": "ISC",
+  "devDependencies": {}
+}
