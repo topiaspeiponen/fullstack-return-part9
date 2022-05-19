@@ -11,5 +11,7 @@
   },
   "author": "Topias Peiponen",
   "license": "ISC",
-  "devDependencies": {}
+  "devDependencies": {
+    "@types/node": "^17.0.34"
+  }
 }
