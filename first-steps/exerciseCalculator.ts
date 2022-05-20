@@ -16,40 +16,40 @@ const calculateExercises = (exerciseHours: Array<number>, targetHours: number) =
 
     const trainingDays = exerciseHours.reduce((prev, curr) => {
         if (curr > 0) {
-            return prev + 1
+            return prev + 1;
         }
-        return prev
-    }, 0)
+        return prev;
+    }, 0);
 
     const totalTrainingHours = exerciseHours.reduce((prev, curr) => {
         if (curr > 0) {
-            return prev + curr
+            return prev + curr;
         }
-        return prev
-    }, 0)
-    const avgTrainingHours = totalTrainingHours > 0 ? (totalTrainingHours / exerciseHours.length) : 0
+        return prev;
+    }, 0);
+    const avgTrainingHours = totalTrainingHours > 0 ? (totalTrainingHours / exerciseHours.length) : 0;
 
-    const targetReached = avgTrainingHours >= targetHours
+    const targetReached = avgTrainingHours >= targetHours;
 
-    let rating : number
-    let ratingDescription : string
+    let rating : number;
+    let ratingDescription : string;
 
     switch (true) {
         case avgTrainingHours < (targetHours / 2):
-            rating = 1
-            ratingDescription = 'bad. you need to step up your game.'
+            rating = 1;
+            ratingDescription = 'bad. you need to step up your game.';
             break;
         case avgTrainingHours >= (targetHours / 2) && avgTrainingHours < targetHours:
-            rating = 2
-            ratingDescription = 'not too bad but could be better'
+            rating = 2;
+            ratingDescription = 'not too bad but could be better';
             break;
         case avgTrainingHours >= targetHours:
-            rating = 3
-            ratingDescription = 'perfect! keep up the good work'
+            rating = 3;
+            ratingDescription = 'perfect! keep up the good work';
             break;
         default:
-            rating = 0
-            ratingDescription = 'unable to rate performance'
+            rating = 0;
+            ratingDescription = 'unable to rate performance';
             break;
     }
 
@@ -61,38 +61,38 @@ const calculateExercises = (exerciseHours: Array<number>, targetHours: number) =
         ratingDescription: ratingDescription,
         target: targetHours,
         average: avgTrainingHours
-    }
+    };
 
-    return result
-}
+    return result;
+};
 
-const parseExerciseArguments = (arguments : Array<String>) : exerciseArgValues => {
-    if (arguments.length < 4) throw new Error('Not enough arguments')
+const parseExerciseArguments = (args : Array<string>) : exerciseArgValues => {
+    if (args.length < 4) throw new Error('Not enough args');
 
-    let targetHours : number
-    const exerciseHours : Array<number> = []
+    let targetHours = 0;
+    const exerciseHours : Array<number> = [];
 
-    for (let i=2; i < arguments.length; i++) {
+    for (let i=2; i < args.length; i++) {
 
-        if (i === 2 && !isNaN(Number(arguments[i]))) {
-            targetHours = Number(arguments[i])
-        } else if (!isNaN(Number(arguments[i]))) {
-            exerciseHours.push(Number(arguments[i]))
+        if (i === 2 && !isNaN(Number(args[i]))) {
+            targetHours = Number(args[i]);
+        } else if (!isNaN(Number(args[i]))) {
+            exerciseHours.push(Number(args[i]));
         } else {
-            throw new Error('Provided arguments were not numbers')
+            throw new Error('Provided args were not numbers');
         }
     }
     
     const argValues : exerciseArgValues = {
         target: targetHours,
         exerciseHours: exerciseHours
-    }
-    return argValues
-}
+    };
+    return argValues;
+};
 
 try {
-    const { target, exerciseHours } = parseExerciseArguments(process.argv)
-    console.log(calculateExercises(exerciseHours, target))
+    const { target, exerciseHours } = parseExerciseArguments(process.argv);
+    console.log(calculateExercises(exerciseHours, target));
 } catch(error: unknown) {
-    console.error(error)
+    console.error(error);
 }

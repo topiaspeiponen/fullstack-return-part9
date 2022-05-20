@@ -1,11 +1,11 @@
-import express from 'express'
-import bmiCalculator from './bmiCalculator'
+import express from 'express';
+import bmiCalculator from './bmiCalculator';
 
-const app = express()
+const app = express();
 
 app.get('/hello', (_req, res) => {
     res.send('Hello Full Stack!');
-})
+});
 
 app.get('/bmi', (req, res) => {
     if (!req.query.height || !req.query.weight ) {
@@ -22,10 +22,10 @@ app.get('/bmi', (req, res) => {
     } else {
         res.status(400).send('malformed parameters');
     }
-})
+});
 
 const PORT = 3003;
 
 app.listen(PORT, () => {
-    console.log(`Server runnign on port ${PORT}`)
-})
+    console.log(`Server runnign on port ${PORT}`);
+});
