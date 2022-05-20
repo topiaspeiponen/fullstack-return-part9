@@ -7,10 +7,10 @@ interface Result {
     target: number,
     average: number
 }
-interface exerciseArgValues {
+/*interface exerciseArgValues {
     target: number,
     exerciseHours : Array<number>
-}
+}*/
 
 const calculateExercises = (exerciseHours: Array<number>, targetHours: number) => {
 
@@ -66,7 +66,7 @@ const calculateExercises = (exerciseHours: Array<number>, targetHours: number) =
     return result;
 };
 
-const parseExerciseArguments = (args : Array<string>) : exerciseArgValues => {
+/*const parseExerciseArguments = (args : Array<string>) : exerciseArgValues => {
     if (args.length < 4) throw new Error('Not enough args');
 
     let targetHours = 0;
@@ -95,4 +95,6 @@ try {
     console.log(calculateExercises(exerciseHours, target));
 } catch(error: unknown) {
     console.error(error);
-}
+}*/
+
+export default calculateExercises;
