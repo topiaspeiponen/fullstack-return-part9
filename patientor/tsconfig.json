@@ -10,7 +10,8 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "resolveJsonModule": true
 
     /* Projects */
     // "incremental": true,                              /* Enable incremental compilation */
