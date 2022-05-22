@@ -1,5 +1,16 @@
 export type Diagnose = {
-    code: String,
-    name: String,
-    latin?: String
-}
+    code: string,
+    name: string,
+    latin?: string
+};
+
+export type Patient = {
+    id: string,
+    name: string,
+    dateOfBirth: string,
+    ssn: string,
+    gender: string,
+    occupation: string
+};
+
+export type NonSensitivePatient = Omit<Patient, 'ssn'>;
