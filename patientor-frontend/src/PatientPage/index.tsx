@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { Patient } from "../types";
 import { apiBaseUrl } from "../constants";
 import { updatePatient, useStateValue } from "../state";
+import EntryDetails from "../components/EntryDetails";
 
 
 const PatientPage = () => {
@@ -11,7 +12,7 @@ const PatientPage = () => {
 
     const [{ patients, diagnoses }, dispatch] = useStateValue();
     const patientToView = Object.values(patients).find(patient => patient.id === id);
-    
+
     useEffect(() => {
         try {
             void axios.get<Patient>(
@@ -50,29 +51,9 @@ const PatientPage = () => {
                 <h3>
                     entries
                 </h3>
-                {patientToView.entries && patientToView.entries.map(entry => {
+                {patientToView.entries && patientToView.entries.map((entry, index) => {
                     return (
-                        <div key={entry.id}>
-                            <div>
-                                {entry.date} {entry.description}
-                            </div>
-                            <ul>
-                                {entry.diagnosisCodes && entry.diagnosisCodes.map((code, index) => {
-                                    const matchingNameForCode = Object.values(diagnoses).find(diagnosis => {
-                                        if (diagnosis.code === code) {
-                                            return diagnosis;
-                                        }
-                                    });
-
-                                    return (
-                                        <li key={`${code}${index}`}>
-                                            {code} {matchingNameForCode && matchingNameForCode.name}
-                                        </li>
-                                    );
-                                })
-                                }
-                            </ul>
-                        </div>
+                        <EntryDetails key={`${entry.id} ${index}`} entry={entry} diagnoses={Object.values(diagnoses)}/>
                     );
                 })}
             </div>
