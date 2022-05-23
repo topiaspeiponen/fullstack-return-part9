@@ -1,19 +1,16 @@
+import { CoursePart } from '../data/courseParts';
+import Part from './Part';
+
 type ContentProps = {
-    courseParts: Array<{name: string, exerciseCount: number}>
+    courseParts: Array<CoursePart>
 };
 
 const Content = (props: ContentProps) => {
     return (
         <>
-            <p>
-                {props.courseParts[0].name} {props.courseParts[0].exerciseCount}
-            </p>
-            <p>
-                {props.courseParts[1].name} {props.courseParts[1].exerciseCount}
-            </p>
-            <p>
-                {props.courseParts[2].name} {props.courseParts[2].exerciseCount}
-            </p>
+            {props.courseParts.map((part, index) => {
+                return(<Part key={part.name + index} coursePart={part}/>)
+            })}
         </>
     );
 };
