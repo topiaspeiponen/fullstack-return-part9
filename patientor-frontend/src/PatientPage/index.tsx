@@ -47,6 +47,29 @@ const PatientPage = () => {
                 <div>
                     occupation: {patientToView.occupation}
                 </div>
+
+                <h3>
+                    entries
+                </h3>
+                {patientToView.entries && patientToView.entries.map(entry => {
+                    return (
+                        <div key={entry.id}>
+                            <div>
+                                {entry.date} {entry.description}
+                            </div>
+                            <ul>
+                                {entry.diagnosisCodes && entry.diagnosisCodes.map((code, index) => {
+                                    return (
+                                        <li key={`${code}${index}`}>
+                                            {code}
+                                        </li>
+                                    );
+                                })
+                                }
+                            </ul>
+                        </div>
+                    );
+                })}
             </div>
         );
     }
