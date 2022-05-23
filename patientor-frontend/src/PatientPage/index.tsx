@@ -9,10 +9,9 @@ import { updatePatient, useStateValue } from "../state";
 const PatientPage = () => {
     const { id } = useParams<{ id: string}>();
 
-    const [{ patients }, dispatch] = useStateValue();
-
+    const [{ patients, diagnoses }, dispatch] = useStateValue();
     const patientToView = Object.values(patients).find(patient => patient.id === id);
-
+    
     useEffect(() => {
         try {
             void axios.get<Patient>(
@@ -59,9 +58,15 @@ const PatientPage = () => {
                             </div>
                             <ul>
                                 {entry.diagnosisCodes && entry.diagnosisCodes.map((code, index) => {
+                                    const matchingNameForCode = Object.values(diagnoses).find(diagnosis => {
+                                        if (diagnosis.code === code) {
+                                            return diagnosis;
+                                        }
+                                    });
+
                                     return (
                                         <li key={`${code}${index}`}>
-                                            {code}
+                                            {code} {matchingNameForCode && matchingNameForCode.name}
                                         </li>
                                     );
                                 })

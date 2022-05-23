@@ -4,8 +4,8 @@ import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 import { Button, Divider, Container } from "@material-ui/core";
 
 import { apiBaseUrl } from "./constants";
-import { useStateValue, setPatientList } from "./state";
-import { Patient } from "./types";
+import { useStateValue, setPatientList, setDiagnosisList } from "./state";
+import { Diagnosis, Patient } from "./types";
 
 import PatientListPage from "./PatientListPage";
 import { Typography } from "@material-ui/core";
@@ -25,7 +25,19 @@ const App = () => {
         console.error(e);
       }
     };
+    const fetchDiagnoses = async () => {
+      try {
+        const { data: diagnosesListFromApi } = await axios.get<Diagnosis[]>(
+          `${apiBaseUrl}/diagnoses`
+        );
+        dispatch(setDiagnosisList(diagnosesListFromApi));
+      } catch(e) {
+        console.error(e);
+      }
+    };
+
     void fetchPatientList();
+    void fetchDiagnoses();
   }, [dispatch]);
 
   return (
