@@ -36,6 +36,7 @@ const PatientListPage = () => {
       closeModal();
     } catch (e: unknown) {
       if (axios.isAxiosError(e)) {
+        console.log(e);
         console.error(e?.response?.data || "Unrecognized axios error");
         setError(String(e?.response?.data?.error) || "Unrecognized axios error");
       } else {
