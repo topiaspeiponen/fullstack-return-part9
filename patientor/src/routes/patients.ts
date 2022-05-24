@@ -1,6 +1,6 @@
 import express from 'express';
 import patientsService from '../services/patientsService';
-import toNewPatient from '../utils';
+import { toNewPatient, toNewEntry } from '../utils';
 
 const router = express.Router();
 
@@ -22,6 +22,7 @@ router.get('/:id', (req, res) => {
 
 router.post('/', (req, res) => {
     try {
+        console.log('post patient');
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         const newPatient = toNewPatient(req.body);
         const addedPatient = patientsService.addPatient(newPatient);
@@ -35,5 +36,17 @@ router.post('/', (req, res) => {
     }
 });
 
+router.post('/:id/entries', (req, res) => {
+    try {
+        console.log('post entries ', req.body, req.params.id);
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+        const newEntry = toNewEntry(req.body);
+        const addedEntry = patientsService.addEntry(req.params.id, newEntry);
+        res.json(addedEntry);
+    } catch(error: unknown) {
+        console.log('mitä');
+        console.error(error);
+    }
+});
 
 export default router;

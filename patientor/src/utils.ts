@@ -1,4 +1,4 @@
-import { Gender, NewPatient } from "./types";
+import { EntryWithoutId, Gender, HealthCheckRating, NewPatient } from "./types";
 
 const isString = (text: unknown) : text is string => {
     return typeof text === 'string' || text instanceof String;
@@ -54,7 +54,7 @@ const parseGender = (gender: unknown) : Gender => {
 
 type Fields = { name: unknown, dateOfBirth: unknown, ssn: unknown, gender: unknown, occupation: unknown };
 
-const toNewPatient = (object : Fields) : NewPatient => {
+export const toNewPatient = (object : Fields) : NewPatient => {
     const newPatient : NewPatient = {
         name: parseName(object.name),
         dateOfBirth: parseDate(object.dateOfBirth),
@@ -66,4 +66,91 @@ const toNewPatient = (object : Fields) : NewPatient => {
     return newPatient;
 };
 
-export default toNewPatient;
+export const toNewEntry = (object : EntryWithoutId) : EntryWithoutId => {
+    switch (object.type) {
+        case "Hospital":
+            if (!object.date) {
+                throw new Error('Incorrect or missing date');
+            }
+            if (!object.description) {
+                throw new Error('Incorrect or missing description');
+            }
+            if (!object.discharge || !object.discharge.date || !object.discharge.criteria) {
+                throw new Error('Incorrect or missing discharge information');
+            }
+            if (!object.specialist) {
+                throw new Error('Incorrect or missing specialist');
+            }
+
+            const hospitalEntry : EntryWithoutId = {
+                type: "Hospital",
+                date: object.date,
+                description: object.description,
+                discharge: object.discharge,
+                specialist: object.specialist
+            };
+
+            if (object.diagnosisCodes) {
+                hospitalEntry['diagnosisCodes'] = object.diagnosisCodes;
+            }
+            return hospitalEntry;
+        case "HealthCheck":
+            if (!object.date) {
+                throw new Error('Incorrect or missing date');
+            }
+            if (!object.description) {
+                throw new Error('Incorrect or missing description');
+            }
+            if (!object.healthCheckRating || !Object.values(HealthCheckRating).includes(Number(object.healthCheckRating))) {
+                throw new Error('Incorrect or missing health check rating');
+            }
+            if (!object.specialist) {
+                throw new Error('Incorrect or missing specialist');
+            }
+
+            const healthcheckEntry : EntryWithoutId = {
+                type: "HealthCheck",
+                date: object.date,
+                description: object.description,
+                healthCheckRating: object.healthCheckRating,
+                specialist: object.specialist
+            };
+
+            if (object.diagnosisCodes) {
+                healthcheckEntry['diagnosisCodes'] = object.diagnosisCodes;
+            }
+            return healthcheckEntry;
+        case "OccupationalHealthcare":
+            if (!object.date) {
+                throw new Error('Incorrect or missing date');
+            }
+            if (!object.description) {
+                throw new Error('Incorrect or missing description');
+            }
+            if (!object.employerName) {
+                throw new Error('Incorrect or missing employer name');
+            }
+            if (!object.specialist) {
+                throw new Error('Incorrect or missing specialist');
+            }
+
+            const occupationalEntry : EntryWithoutId = {
+                type: "OccupationalHealthcare",
+                date: object.date,
+                description: object.description,
+                employerName: object.employerName,
+                specialist: object.specialist
+            };
+
+            if (object.diagnosisCodes) {
+                occupationalEntry['diagnosisCodes'] = object.diagnosisCodes;
+            }
+            if (object.sickLeave && object.sickLeave.endDate && object.sickLeave.startDate) {
+                occupationalEntry['sickLeave'] = object.sickLeave;
+            }
+
+            return occupationalEntry;
+        default:
+            throw new Error('Received entry was invalid');
+    }
+};
