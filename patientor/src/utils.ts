@@ -101,7 +101,7 @@ export const toNewEntry = (object : EntryWithoutId) : EntryWithoutId => {
             if (!object.description) {
                 throw new Error('Incorrect or missing description');
             }
-            if (!object.healthCheckRating || !Object.values(HealthCheckRating).includes(Number(object.healthCheckRating))) {
+            if (!Object.values(HealthCheckRating).includes(Number(object.healthCheckRating))) {
                 throw new Error('Incorrect or missing health check rating');
             }
             if (!object.specialist) {
